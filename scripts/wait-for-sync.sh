@@ -57,6 +57,11 @@ showProgress () {
 
 for (( ;; ))
 do
+  if (( $SECONDS > 100 )); then
+    echo "Warning the script has timedout, but that's ok we will cache the reulst and continue on next schedul run"
+    exit 0
+  fi
+
   HEALTH=$(curl -sS $URL)
 
   CONNECTION_STATUS=$(sed 's/.*"connectionStatus":"\([a-z]\+\)".*/\1/' <<< $HEALTH)
