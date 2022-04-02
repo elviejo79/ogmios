@@ -2,7 +2,7 @@ name: Network Synchronization
 
 on:
   schedule:
-    - cron: '00 06,18 * * *'
+    - cron: '0 */2 * * *'
   workflow_dispatch:
 
 jobs:

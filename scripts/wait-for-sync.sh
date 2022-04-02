@@ -35,6 +35,7 @@ if [ -z "$THRESHOLD" ]; then
   exitWithUsage
 fi
 
+TIMEOUT=${$3:-$(( 90*60 ))}
 URL=http://localhost:$OGMIOS_PORT/health
 
 showProgress () {
@@ -57,7 +58,7 @@ showProgress () {
 
 for (( ;; ))
 do
-  if (( $SECONDS > 100 )); then
+  if (( $SECONDS > $TIMEOUT )); then
     echo "Warning the script has timedout, but that's ok we will cache the reulst and continue on next schedul run"
     exit 0
   fi
