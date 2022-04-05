@@ -33,7 +33,7 @@ services:
 
 volumes:
   node-ipc:
-    external: true
+    external: false
   myapplicationdata:
     external: true
 # ~\~ end
