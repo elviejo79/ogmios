@@ -42,5 +42,13 @@ jobs:
 
     - name: run the architecture with docker compose
       run: docker-compose up --detach
+    - name: see if it's running
+      run: |
+        docker-compose run --entrypoint="/bin/bash" node -c pwd; ls
+        docker-compose run node cli query tip --testnet-magic 1097911063
+        sleep 120
+        docker-compose run node cli query tip --testnet-magic 1097911063
+        sleep 120
+        docker-compose run node cli query tip --testnet-magic 1097911063
     - name: stop
       run: docker-compose down -v
