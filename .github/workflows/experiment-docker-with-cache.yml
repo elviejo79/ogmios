@@ -38,8 +38,7 @@ jobs:
       #https://stackoverflow.com/a/67280719/54848
       run: |
         docker volume create myapplicationdata
-        sudo cp -p -r ${{ runner.temp }}/db-${{ matrix.network }} /var/lib/docker/volumes/myapplicationdata/_data/
-
+        sudo mv ${{ runner.temp }}/db-${{ matrix.network }} /var/lib/docker/volumes/myapplicationdata/_data/
 
     - name: run the architecture with docker compose
       run: docker-compose up --detach
