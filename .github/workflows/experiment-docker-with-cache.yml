@@ -60,7 +60,7 @@ jobs:
     #   run: docker-compose up --detach
     - name: see if it's running
       run: |
-        docker exec --detach --entrypoint="/bin/bash" node -c pwd; ls
+        docker exec --detach node -c pwd; ls
         docker exec --detach node cli query tip --testnet-magic 1097911063
         sleep 120
         docker exec --detach node cli query tip --testnet-magic 1097911063
