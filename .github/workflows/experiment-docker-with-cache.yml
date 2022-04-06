@@ -38,8 +38,9 @@ jobs:
       #https://stackoverflow.com/a/67280719/54848
       run: |
         docker volume create myapplicationdata
-        rm -rf /var/lib/docker/volumes/myapplicationdata/_data/
-        ln --symbolic --target-directory /var/lib/docker/volumes/myapplicationdata/_data/ ${{ runner.temp }}/db-${{ matrix.network }}
+        docker volume inspect myapplicationdata
+        sudo rm -rf /var/lib/docker/volumes/myapplicationdata/_data/
+        sudo ln --symbolic --target-directory /var/lib/docker/volumes/myapplicationdata/_data/ ${{ runner.temp }}/db-${{ matrix.network }}
         #sudo cp -p -r ${{ runner.temp }}/db-${{ matrix.network }} /var/lib/docker/volumes/myapplicationdata/_data/
 
     - name: run the architecture with docker compose
