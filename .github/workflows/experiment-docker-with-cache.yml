@@ -35,15 +35,17 @@ jobs:
 
     - name: start a cardano-node and a cli docker container
       run: |
-        docker pull inputoutput/cardano-node \
+        docker pull inputoutput/cardano-node
         docker run --detach --name cardano-node \
           -v ${{ runner.temp }}/db-${{ matrix.network }}:/data \
           -v ${{ runner.temp }}/ipc:/ipc \
-          -e NETWORK=testnet
+          -e NETWORK=testnet \
+          inputoutput/cardano-node
 
         docker run --detach --name node \
         -v ${{ runner.temp }}/ipc:/ipc:ro \
-        -e CARDANO_NODE_SOCKET_PATH=/ipc/node.socket
+        -e CARDANO_NODE_SOCKET_PATH=/ipc/node.socket \
+        inputoutput/cardano-node
 
     # - name: Create a docker volume with the db from cache loaded
     #   #https://stackoverflow.com/a/67280719/54848
