@@ -13,8 +13,8 @@ jobs:
         network: [testnet]
         cardanoNodeVersion: [1.34.1]
 
-  runs-on: ubuntu-latest
-  steps:
+    runs-on: ubuntu-latest
+    steps:
     - name: 📥 Checkout repository
       uses: actions/checkout@v2.3.3
 
