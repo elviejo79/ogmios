@@ -47,19 +47,6 @@ jobs:
         -e CARDANO_NODE_SOCKET_PATH=/ipc/node.socket \
         inputoutput/cardano-node
 
-    # - name: Create a docker volume with the db from cache loaded
-    #   #https://stackoverflow.com/a/67280719/54848
-    #   run: |
-    #     docker volume create myapplicationdata
-    #     docker volume inspect myapplicationdata
-    #     sudo rm -rf /var/lib/docker/volumes/myapplicationdata/_data/
-    #     sudo ln --symbolic --target-directory /var/lib/docker/volumes/myapplicationdata/_data/ ${{ runner.temp }}/db-${{ matrix.network }}
-    #     #sudo cp -p -r ${{ runner.temp }}/db-${{ matrix.network }} /var/lib/docker/volumes/myapplicationdata/_data/
-
-    # - name: run the architecture with docker compose
-    #   run: docker-compose up --detach
-    - name: see if it's running
-      run: |
         sleep 10m
         docker exec --detach node -c pwd; ls
         docker exec --detach node cli query tip --testnet-magic 1097911063
