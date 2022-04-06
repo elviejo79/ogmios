@@ -35,7 +35,7 @@ jobs:
 
     - name: start a cardano-node and a cli docker container
       run: |
-        docker pull inputoutput/cardano-node
+        docker pull inputoutput/cardano-node \
         docker run --detach --name cardano-node \
           -v ${{ runner.temp }}/db-${{ matrix.network }}:/data \
           -v ${{ runner.temp }}/ipc:/ipc \
