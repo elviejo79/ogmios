@@ -1,8 +1,8 @@
 name: experiment-docker-cache
 
 on:
-#  schedule:
-#    - cron: '0 */2 * * *'
+  #  schedule:
+  #    - cron: '0 */2 * * *'
   workflow_dispatch:
 
 jobs:
@@ -13,9 +13,8 @@ jobs:
         network: [testnet]
         cardanoNodeVersion: [1.34.1]
 
-    runs-on: ubuntu-latest
-    steps:
-
+  runs-on: ubuntu-latest
+  steps:
     - name: 📥 Checkout repository
       uses: actions/checkout@v2.3.3
 
@@ -34,24 +33,42 @@ jobs:
         restore-keys: |
           cardano-node-ogmios-${{ matrix.network }}-
 
-    - name: Create a docker volume with the db from cache loaded
-      #https://stackoverflow.com/a/67280719/54848
+    - name: start a cardano-node and a cli docker container
       run: |
-        docker volume create myapplicationdata
-        docker volume inspect myapplicationdata
-        sudo rm -rf /var/lib/docker/volumes/myapplicationdata/_data/
-        sudo ln --symbolic --target-directory /var/lib/docker/volumes/myapplicationdata/_data/ ${{ runner.temp }}/db-${{ matrix.network }}
-        #sudo cp -p -r ${{ runner.temp }}/db-${{ matrix.network }} /var/lib/docker/volumes/myapplicationdata/_data/
+        docker pull inputoutput/cardano-node
+        docker run --detached --name cardano-node \
+          -v ${{ runner.temp }}/db-${{ matrix.network }}:/data \
+          -v ${{ runner.temp }}/ipc:/ipc \
+          -e NETWORK=testnet
 
-    - name: run the architecture with docker compose
-      run: docker-compose up --detach
+        docker run --detached --name node
+        -v ${{ runner.temp }}/ipc:/ipc:ro \
+        -e CARDANO_NODE_SOCKET_PATH=/ipc/node.socket
+
+    # - name: Create a docker volume with the db from cache loaded
+    #   #https://stackoverflow.com/a/67280719/54848
+    #   run: |
+    #     docker volume create myapplicationdata
+    #     docker volume inspect myapplicationdata
+    #     sudo rm -rf /var/lib/docker/volumes/myapplicationdata/_data/
+    #     sudo ln --symbolic --target-directory /var/lib/docker/volumes/myapplicationdata/_data/ ${{ runner.temp }}/db-${{ matrix.network }}
+    #     #sudo cp -p -r ${{ runner.temp }}/db-${{ matrix.network }} /var/lib/docker/volumes/myapplicationdata/_data/
+
+    # - name: run the architecture with docker compose
+    #   run: docker-compose up --detach
     - name: see if it's running
       run: |
-        docker-compose run --entrypoint="/bin/bash" node -c pwd; ls
-        docker-compose run node cli query tip --testnet-magic 1097911063
+        docker run --entrypoint="/bin/bash" node -c pwd; ls
+        docker run node cli query tip --testnet-magic 1097911063
         sleep 120
-        docker-compose run node cli query tip --testnet-magic 1097911063
+        docker run node cli query tip --testnet-magic 1097911063
         sleep 120
-        docker-compose run node cli query tip --testnet-magic 1097911063
-    - name: stop
-      run: docker-compose down -v
+        docker run node cli query tip --testnet-magic 1097911063
+    # - name: stop
+    #   run: docker-compose down -v
+    - name: stop the containers
+      run: |
+        docker stop cardano-node
+        docker rmi cardano-node
+        docker stop node
+        docker rmi cardano-node
