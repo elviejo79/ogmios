@@ -60,12 +60,12 @@ jobs:
     #   run: docker-compose up --detach
     - name: see if it's running
       run: |
-        docker run --entrypoint="/bin/bash" node -c pwd; ls
-        docker run node cli query tip --testnet-magic 1097911063
+        docker exec --detach --entrypoint="/bin/bash" node -c pwd; ls
+        docker exec --detach node cli query tip --testnet-magic 1097911063
         sleep 120
-        docker run node cli query tip --testnet-magic 1097911063
+        docker exec --detach node cli query tip --testnet-magic 1097911063
         sleep 120
-        docker run node cli query tip --testnet-magic 1097911063
+        docker exec --detach node cli query tip --testnet-magic 1097911063
     # - name: stop
     #   run: docker-compose down -v
     - name: stop the containers
