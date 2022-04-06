@@ -36,12 +36,12 @@ jobs:
     - name: start a cardano-node and a cli docker container
       run: |
         docker pull inputoutput/cardano-node
-        docker run --detached --name cardano-node \
+        docker run --detach --name cardano-node \
           -v ${{ runner.temp }}/db-${{ matrix.network }}:/data \
           -v ${{ runner.temp }}/ipc:/ipc \
           -e NETWORK=testnet
 
-        docker run --detached --name node
+        docker run --detach --name node \
         -v ${{ runner.temp }}/ipc:/ipc:ro \
         -e CARDANO_NODE_SOCKET_PATH=/ipc/node.socket
 
