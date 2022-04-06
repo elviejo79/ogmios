@@ -1,4 +1,4 @@
-name: experimnt-docker-cache
+name: experiment-docker-cache
 
 on:
 #  schedule:
@@ -23,7 +23,7 @@ jobs:
       id: date-time
       shell: bash
       run: |
-        #echo "::set-output name=value::$(/bin/date -u "+%Y%m%d-%H%M%S")"
+        echo "::set-output name=value::$(/bin/date -u "+%Y%m%d-%H%M%S")" #
 
     - name: 💾 Cache cardano-node DB
       id: cache
@@ -38,7 +38,9 @@ jobs:
       #https://stackoverflow.com/a/67280719/54848
       run: |
         docker volume create myapplicationdata
-        sudo mv ${{ runner.temp }}/db-${{ matrix.network }} /var/lib/docker/volumes/myapplicationdata/_data/
+        rm -rf /var/lib/docker/volumes/myapplicationdata/_data/
+        ln --symbolic --target-directory /var/lib/docker/volumes/myapplicationdata/_data/ ${{ runner.temp }}/db-${{ matrix.network }}
+        #sudo cp -p -r ${{ runner.temp }}/db-${{ matrix.network }} /var/lib/docker/volumes/myapplicationdata/_data/
 
     - name: run the architecture with docker compose
       run: docker-compose up --detach
