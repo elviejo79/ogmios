@@ -27,7 +27,7 @@ jobs:
       id: cache
       uses: actions/cache@v2.1.1
       with:
-        path: "/var/lib/docker/volumes/myapplicationdata/_data/"  # ${{ runner.temp }}/db-${{ matrix.network }}
+        path: "/var/lib/docker/volumes/myapplicationdata/_data/"
         key: cardano-node-ogmios-${{ matrix.network }}-${{ steps.date-time.outputs.value }}
         restore-keys: |
           cardano-node-ogmios-${{ matrix.network }}-
@@ -35,5 +35,5 @@ jobs:
     - name: ⟲ Sync Node
       uses: CardanoSolutions/gh-action-cardano-node-ogmios-docker-sync@v1.0.1
       with:
-        db-dir: "/var/lib/docker/volumes/myapplicationdata/_data/"  # ${{ runner.temp }}/db-${{ matrix.network }}
+        db-dir: "/var/lib/docker/volumes/myapplicationdata/_data/"
         network: ${{ matrix.network }}
