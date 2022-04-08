@@ -40,5 +40,5 @@ jobs:
     - name: ⟲ Sync Node
       uses: CardanoSolutions/gh-action-cardano-node-ogmios-docker-sync@v1.0.1
       with:
-        db-dir:"/var/lib/docker/volumes/myapplicationdata/_data/"
+        db-dir: "/var/lib/docker/volumes/myapplicationdata/_data/"
         network: ${{ matrix.network }}
