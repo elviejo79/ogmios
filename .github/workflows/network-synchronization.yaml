@@ -42,3 +42,6 @@ jobs:
       with:
         db-dir: "/var/lib/docker/volumes/myapplicationdata/_data/"
         network: ${{ matrix.network }}
+
+    -name: change permissions on folder so that it can get cache
+     run: sudo chmod -r 777 /var/lib/docker/volumes/myapplicationdata/_data
