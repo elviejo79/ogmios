@@ -32,7 +32,7 @@ jobs:
       id: cache
       uses: actions/cache@v2.1.1
       with:
-        path:  "/var/lib/docker/volumes/myapplicationdata/_data/"
+        path: "/var/lib/docker/volumes/myapplicationdata/_data/"
         key: cardano-node-ogmios-${{ matrix.network }}-${{ steps.date-time.outputs.value }}
         restore-keys: |
           cardano-node-ogmios-${{ matrix.network }}-
@@ -43,5 +43,6 @@ jobs:
         db-dir: "/var/lib/docker/volumes/myapplicationdata/_data/"
         network: ${{ matrix.network }}
 
-    -name: change permissions on folder so that it can get cache
-     run: sudo chmod -r 777 /var/lib/docker/volumes/myapplicationdata/_data
+    - name: change permissions on folder so that it can get cache
+      run: |
+        sudo chmod -r 777 /var/lib/docker/volumes/myapplicationdata/_data
