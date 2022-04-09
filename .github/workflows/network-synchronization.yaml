@@ -9,7 +9,7 @@ jobs:
   sync_and_cache:
     strategy:
       matrix:
-        network: [testnet]
+        network: [ testnet ]
 
     runs-on: ubuntu-latest
     steps:
@@ -23,17 +23,11 @@ jobs:
       run: |
         echo "::set-output name=value::$(/bin/date -u "+%Y%m%d-%H%M%S")"
 
-    - name: Create a docker volume
-      run: |
-        docker volume create myapplicationdata
-        docker volume inspect myapplicationdata
-        sudo chmod --recursive 777 /var/lib/docker/
-
     - name: 💾 Cache cardano-node DB
       id: cache
       uses: actions/cache@v2.1.1
       with:
-        path: "/var/lib/docker/volumes/myapplicationdata/_data/"
+        path: ${{ runner.temp }}/db-${{ matrix.network }}
         key: cardano-node-ogmios-${{ matrix.network }}-${{ steps.date-time.outputs.value }}
         restore-keys: |
           cardano-node-ogmios-${{ matrix.network }}-
@@ -41,9 +35,5 @@ jobs:
     - name: ⟲ Sync Node
       uses: CardanoSolutions/gh-action-cardano-node-ogmios-docker-sync@v1.0.1
       with:
-        db-dir: "/var/lib/docker/volumes/myapplicationdata/_data/"
+        db-dir: ${{ runner.temp }}/db-${{ matrix.network }}
         network: ${{ matrix.network }}
-
-    - name: change permissions on folder so that it can get cache
-      run: |
-        sudo chmod --recursive 777 /var/lib/docker/

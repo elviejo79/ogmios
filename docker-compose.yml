@@ -6,8 +6,8 @@ services:
   cardano-node:
     image: inputoutput/cardano-node
     volumes:
-     #- ./cardano-testnet-1097911063/_data:/data
-     - myapplicationdata:/data
+     # this will break as soon as we change the name of the job sync_and_cache
+     - /home/runner/sync_and_cache/_temp/:/data
      - node-ipc:/ipc
     environment:
       - NETWORK=testnet
@@ -34,6 +34,4 @@ services:
 volumes:
   node-ipc:
     external: false
-  myapplicationdata:
-    external: true
 # ~\~ end
