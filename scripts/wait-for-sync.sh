@@ -35,7 +35,7 @@ if [ -z "$THRESHOLD" ]; then
   exitWithUsage
 fi
 
-TIMEOUT=${3:-$(( 90*60 ))}
+TIMEOUT=${3:-$(( 5*60 ))}
 URL=http://localhost:$OGMIOS_PORT/health
 
 showProgress () {
@@ -68,7 +68,7 @@ do
   CONNECTION_STATUS=$(sed 's/.*"connectionStatus":"\([a-z]\+\)".*/\1/' <<< $HEALTH)
   if ! [[ $CONNECTION_STATUS = "connected" ]] ; then
     echo "Waiting for node.socket..."
-    sleep 5
+    sleep 10
   else
     NETWORK_SYNCHRONIZATION=$(sed 's/.*"networkSynchronization":\([0-9]\+\.\?[0-9]*\).*/\1/' <<< $HEALTH)
 
@@ -84,7 +84,7 @@ do
     if [ "$PREDICATE" -eq 1 ]; then
       exit 0
     else
-      sleep 5
+      sleep 10
     fi
   fi
 done
