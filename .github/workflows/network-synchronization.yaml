@@ -27,6 +27,7 @@ jobs:
       run: |
         docker volume create myapplicationdata
         docker volume inspect myapplicationdata
+        sudo chmod --recursive 777 /var/lib/docker/
 
     - name: 💾 Cache cardano-node DB
       id: cache
