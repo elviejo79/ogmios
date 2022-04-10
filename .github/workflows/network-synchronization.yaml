@@ -28,9 +28,9 @@ jobs:
       uses: actions/cache@v2.1.1
       with:
         path: ${{ runner.temp }}/db-${{ matrix.network }}
-        key: cardano-node-ogmios-${{ matrix.network }}-${{ steps.date-time.outputs.value }}
+        key: cardano-node-${{ matrix.network }}-${{ steps.date-time.outputs.value }}
         restore-keys: |
-          cardano-node-ogmios-${{ matrix.network }}-
+          cardano-node-${{ matrix.network }}-
 
     - name: ⟲ Sync Node
       uses: CardanoSolutions/gh-action-cardano-node-ogmios-docker-sync@v1.0.1
