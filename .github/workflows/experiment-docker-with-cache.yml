@@ -35,7 +35,7 @@ jobs:
           cardano-node-${{ matrix.network }}-
 
     - name: run the architecture with docker compose
-      run: docker-compose up --wait
+      run: docker-compose up --renew-anon-volumes --wait
     - name: see if it's running
       run: |
         docker-compose run --entrypoint="/bin/bash" node -c pwd; ls
