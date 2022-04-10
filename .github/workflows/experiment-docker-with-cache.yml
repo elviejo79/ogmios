@@ -1,8 +1,8 @@
 name: experiment-docker-cache
 
 on:
-#  schedule:
-#    - cron: '0 */2 * * *'
+  # schedule:
+  #  - cron: '0 */2 * * *'
   workflow_dispatch:
 
 jobs:
@@ -15,36 +15,35 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v2.3.3
 
-    - name: 📥 Checkout repository
-      uses: actions/checkout@v2.3.3
+      - name: ⌚ Get Date/Time
+        id: date-time
+        shell: bash
+        run: |
+          echo "::set-output name=value::$(/bin/date -u "+%Y%m%d-%H%M%S")" #
 
-    - name: ⌚ Get Date/Time
-      id: date-time
-      shell: bash
-      run: |
-        echo "::set-output name=value::$(/bin/date -u "+%Y%m%d-%H%M%S")" #
+      - name: 💾 Cache cardano-node DB
+        id: cache
+        uses: actions/cache@v2.1.1
+        with:
+          path: ${{ runner.temp }}/db-${{ matrix.network }}
+          key: cardano-node-${{ matrix.network }}-${{ steps.date-time.outputs.value }}
+          restore-keys: |
+            cardano-node-${{ matrix.network }}-
 
-    - name: 💾 Cache cardano-node DB
-      id: cache
-      uses: actions/cache@v2.1.1
-      with:
-        path: ${{ runner.temp }}/db-${{ matrix.network }}
-        key: cardano-node-${{ matrix.network }}-${{ steps.date-time.outputs.value }}
-        restore-keys: |
-          cardano-node-${{ matrix.network }}-
-
-    - name: run the architecture with docker compose
-      run: docker-compose up --renew-anon-volumes --detach
-    - name: see if it's running
-      run: |
-        docker-compose run --entrypoint="/bin/bash" node -c pwd; ls
-        docker-compose run node cli query tip --testnet-magic 1097911063
-        sleep 120
-        docker-compose run --entrypoint="/bin/bash" node -c pwd; ls -l; cd /data; pwd; ls -al; cd /; pwd; ls -l
-        sleep 1m
-        docker-compose run node cli query tip --testnet-magic 1097911063
-        sleep 120
-        docker-compose run node cli query tip --testnet-magic 1097911063
-    - name: stop
-      run: docker-compose down -v
+      - name: run the architecture with docker compose
+        run: docker-compose up --renew-anon-volumes --detach
+      - name: see if it's running
+        run: |
+          docker-compose run --entrypoint="/bin/bash" node -c pwd; ls
+          docker-compose run node cli query tip --testnet-magic 1097911063
+          sleep 120
+          docker-compose run --entrypoint="/bin/bash" node -c pwd; ls -l; cd /data; pwd; ls -al; cd /; pwd; ls -l
+          sleep 1m
+          docker-compose run node cli query tip --testnet-magic 1097911063
+          sleep 120
+          docker-compose run node cli query tip --testnet-magic 1097911063
+      - name: stop
+        run: docker-compose down -v
