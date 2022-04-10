@@ -9,7 +9,7 @@ jobs:
   sync_and_cache:
     strategy:
       matrix:
-        network: [ testnet ]
+        network: [testnet]
 
     runs-on: ubuntu-latest
     steps:
