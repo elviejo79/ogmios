@@ -41,7 +41,7 @@ jobs:
         docker-compose run --entrypoint="/bin/bash" node -c pwd; ls
         docker-compose run node cli query tip --testnet-magic 1097911063
         sleep 120
-        docker-compose run --entrypoint="/bin/bash" node -c pwd; ls -l; cd /data; pwd; ls -l; cd /; pwd; ls -l
+        docker-compose run --entrypoint="/bin/bash" node -c pwd; ls -l; cd /data; pwd; ls -al; cd /; pwd; ls -l
         sleep 1m
         docker-compose run node cli query tip --testnet-magic 1097911063
         sleep 120
