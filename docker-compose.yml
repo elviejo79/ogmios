@@ -7,7 +7,7 @@ services:
     image: inputoutput/cardano-node
     volumes:
      # this will break as soon as we change the name of the job sync_and_cache
-     - /home/runner/sync_and_cache/_temp/:/data
+     - /home/runner/work/_temp/db-testnet:/data
      - node-ipc:/ipc
     environment:
       - NETWORK=testnet
