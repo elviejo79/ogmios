@@ -38,9 +38,9 @@ jobs:
       - name: see if it's running
         run: |
           ls -l /home/runner/work/_temp/db-testnet/
-          docker-compose run --entrypoint="/bin/bash" cardano-node -c "ls -l $(pwd); ls -l /data; ls -l /data/db/ "
+          docker-compose run --entrypoint="/bin/bash" cardano-node -c " hostname; pwd; ls -l; ls -l /data; ls -l /data/db/ "
           sleep 60s
-          docker-compose run --entrypoint="/bin/bash" node -c "ls -l $(pwd); ls -al /data "
+          docker-compose run --entrypoint="/bin/bash" node -c "hostname; pwd; ls -l"
           sleep 60s
           docker-compose run node cli query tip --testnet-magic 1097911063
           sleep 120
