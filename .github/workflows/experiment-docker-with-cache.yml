@@ -34,7 +34,7 @@ jobs:
             cardano-node-${{ matrix.network }}-
 
       - name: run the architecture with docker compose
-        run: docker-compose up --renew-anon-volumes
+        run: docker-compose up --renew-anon-volumes --detach
       - name: see if it's running
         run: |
           sleep 60s
