@@ -38,10 +38,11 @@ jobs:
       - name: see if it's running
         run: |
           docker-compose run --entrypoint="/bin/bash" node -c pwd; ls
+          sleep 60s
+          docker-compose run --entrypoint="/bin/bash" node -c pwd; ls -l; cd /data; pwd; ls -al; cd /; pwd; ls -l
+          sleeps 60s
           docker-compose run node cli query tip --testnet-magic 1097911063
           sleep 120
-          docker-compose run --entrypoint="/bin/bash" node -c pwd; ls -l; cd /data; pwd; ls -al; cd /; pwd; ls -l
-          sleep 1m
           docker-compose run node cli query tip --testnet-magic 1097911063
           sleep 120
           docker-compose run node cli query tip --testnet-magic 1097911063
