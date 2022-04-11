@@ -8,7 +8,7 @@ services:
     volumes:
       # this will break as soon as we change the name of the job sync_and_cache
       - node-ipc:/ipc
-      - /home/runner/work/_temp/db-testnet/:/data/db/
+      - /home/runner/work/_temp/db-testnet/:/data/
     environment:
       - NETWORK=testnet
 

@@ -37,6 +37,7 @@ jobs:
         run: docker-compose up --renew-anon-volumes --detach
       - name: see if it's running
         run: |
+          ls -l /home/runner/work/_temp/db-testnet/
           docker-compose run --entrypoint="/bin/bash" cardano-node -c "pwd; ls -l; cd /data; pwd; ls -al; cd /data/db; pwd; ls -l; cd /"
           sleep 60s
           docker-compose run --entrypoint="/bin/bash" node -c "pwd; ls -l; cd /data; pwd; ls -al; cd /; pwd; ls -l; cd /plutus/"
