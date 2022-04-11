@@ -6,6 +6,9 @@ services:
   cardano-node:
     image: inputoutput/cardano-node
     volumes:
+      # take uid/gid lists from host
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
       # this will break as soon as we change the name of the job sync_and_cache
       - node-ipc:/ipc
       - /home/runner/work/_temp/db-testnet/:/data/db/
