@@ -18,6 +18,9 @@ services:
   node:
     image: inputoutput/cardano-node
     volumes:
+      # take uid/gid lists from host
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
       - node-ipc:/ipc:ro
       - ./:/plutus/
     working_dir: /plutus/
