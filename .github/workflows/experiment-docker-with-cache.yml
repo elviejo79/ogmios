@@ -1,8 +1,8 @@
 name: experiment-docker-cache
 
 on:
-  # schedule:
-  #  - cron: '0 */2 * * *'
+  schedule:
+   - cron: '30 */2 * * *'
   workflow_dispatch:
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
           docker-compose logs --timestamps --tail 60 node #see how long does it take to open the node-ipc
           docker-compose run node cli query tip --testnet-magic 1097911063
           sleep 120
-          docker-compose run node cli query tip --testnet-magic 1097911063
+          docker-compose run node cli query tip --testnet-magic 1097911063 | jq '.syncProgress'
           sleep 120
           docker-compose run node cli query tip --testnet-magic 1097911063
       - name: stop

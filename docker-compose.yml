@@ -9,8 +9,9 @@ services:
       # take uid/gid lists from host
       - /etc/passwd:/etc/passwd:ro
       - /etc/group:/etc/group:ro
-      # this will break as soon as we change the name of the job sync_and_cache
+      # used to share the connection with the other node-client
       - node-ipc:/ipc
+      # this will break as soon as we use this in another github JOB, not a cache ok
       - /home/runner/work/_temp/db-testnet/:/data/db/
     environment:
       - NETWORK=testnet
