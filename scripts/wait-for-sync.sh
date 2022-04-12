@@ -35,7 +35,7 @@ if [ -z "$THRESHOLD" ]; then
   exitWithUsage
 fi
 
-TIMEOUT=${3:-$(( 5*60 ))}
+TIMEOUT=${3:-$(( 90*60 ))}
 URL=http://localhost:$OGMIOS_PORT/health
 
 showProgress () {
